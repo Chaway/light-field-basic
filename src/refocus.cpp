@@ -1,5 +1,7 @@
 #include "common.h"
 #include "utils/Timer.h"
+#include "utils/FastImage.h"
+
 const int GRID_SIZE = 8;
 
 Mat RenderLFFull(float _alpha,ImageSet &views) {
