@@ -1,11 +1,12 @@
 #include "common.h"
+#include "utils/Timer.h"
+const int GRID_SIZE = 8;
 
 Mat RenderLFFull(float _alpha,ImageSet &views) {
     int m_numViews = views.size();
     ImageSet views_t(m_numViews);
     Size sz(views[0].cols, views[0].rows);
     double alpha = double(_alpha);
-//    int GRID_SIZE = 8;
     #pragma omp parallel for
     FOR (n, m_numViews) {
         Mat H = Mat::zeros(2, 3, CV_64FC1);
@@ -24,8 +25,9 @@ Mat RenderLFFull(float _alpha,ImageSet &views) {
     tmpF.convertTo(m_renderLF, CV_8UC3);
     return m_renderLF.clone();
 }
+/*
 
-Mat CLFVideo::RenderLFWeighted(int _frameId, float _alpha, float _aperture) {
+Mat RenderLFWeighted(int _frameId, float _alpha, float _aperture) {
     ImageSet views_t(m_numViews);
     ImageSet views = m_seq[_frameId];
     Size sz(views[0].cols, views[0].rows);
@@ -64,11 +66,12 @@ Mat CLFVideo::RenderLFWeighted(int _frameId, float _alpha, float _aperture) {
     tmpF.convertTo(m_renderLF, CV_8UC3);
     return m_renderLF.clone();
 }
-
+*/
 
 int main(int argc,char** argv){
+	vector<string> allArgs(argv, argv + argc);
     ImageSet views;
-    Mat largeIm = imread("sample.jpg");
+    Mat largeIm = imread(allArgs[1]);
     int H = 8;
     int W = 8;
     int height = largeIm.rows / H;
