@@ -54,6 +54,6 @@ endforeach()
 list(REMOVE_DUPLICATES INCLUDE_DIRS)
 
 include_directories(${INCLUDE_DIRS} ${OPENCV_INCLUDE_DIRS})
-add_executable(lfv ${SRCS} ${HEADERS})
+add_executable(lfv ${SRCS} ${HEADERS} src/freemove.cpp)
 target_link_libraries(lfv  ${OpenCV_LIBS}  Qt5::Core Qt5::Widgets)# Qt5::OpenGL)
 #file(COPY Resources DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

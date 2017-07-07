@@ -76,6 +76,11 @@ Mat RenderLFWeighted(int _frameId, float _alpha, float _aperture) {
 }
 */
 
+Mat freemove(Point3f loc,ImageSet &views){
+
+
+}
+
 int main(int argc,char** argv){
 	vector<string> allArgs(argv, argv + argc);
     ImageSet views;
