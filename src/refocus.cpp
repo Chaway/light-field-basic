@@ -9,8 +9,11 @@ Mat RenderLFFull(float _alpha,ImageSet &views) {
     ImageSet views_t(m_numViews);
     Size sz(views[0].cols, views[0].rows);
     double alpha = double(_alpha);
+    CTimer* timer = new CTimer("all views shift", false);
     #pragma omp parallel for
+   //500 times results: With pargma running time is 27 sec compared to 38 sec without it
     FOR (n, m_numViews) {
+        //cout << n << endl;
         Mat H = Mat::zeros(2, 3, CV_64FC1);
         int u = n % GRID_SIZE;
         int v = (n-u) / GRID_SIZE;
@@ -20,9 +23,12 @@ Mat RenderLFFull(float _alpha,ImageSet &views) {
         H.at<double>(0, 2) = -deltaX; H.at<double>(1, 2) = -deltaY;
         warpAffine(views[n], views_t[n], H, sz, 1, 0, Scalar(0, 0, 0));
     }
+    double t = timer->Time() * 1000;
+    //cout << "t = " << t << " ms" << endl;
 
-
-    Mat tmpF = FAST::CFastImage::FastAddImages(views_t)/m_numViews;
+    Mat tmpF = FAST::CFastImage::AddImages(views_t)/m_numViews;
+    t = timer->Time() * 1000;
+    //cout << "t = " << t << " ms" << endl;
     Mat m_renderLF;
     tmpF.convertTo(m_renderLF, CV_8UC3);
     return m_renderLF.clone();
@@ -95,9 +101,13 @@ int main(int argc,char** argv){
 
     float _alpha = 1.0;
     CTimer* timer = new CTimer("One time refocus", false);
-    Mat rend_img = RenderLFFull(_alpha,views);
+    Mat rend_img;
+    FOR(i,500)
+        rend_img= RenderLFFull(_alpha,views);
     double t = timer->Time() * 1000;
-    SHOW_IMG_WAIT(rend_img);
+    cout << "t = " << t << " ms" << endl;
+    //SHOW_IMG_WAIT(rend_img);
+    //imwrite("rend_img.png",rend_img);
     return 0;
 }
 

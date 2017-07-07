@@ -22,8 +22,10 @@ namespace FAST {
 			int _hGrid, int _wGrid, int _scale); 
 		static void ThresholdZeroError(vector<float>& _errVec); 
 		static void UpdateMask(Size _imgSz, const int _pVec[], int _nPixel, 
-			int _offset_x, int _offset_y, int _outPVec[], int& _outPixel); 
-		static Mat FastAddImages(const vector<Mat>& _imgs); 
+			int _offset_x, int _offset_y, int _outPVec[], int& _outPixel);
+        static Mat AddImages(const vector<Mat>& _imgs);
+		static Mat FastAddImages(const vector<Mat>& _imgs);
+		static Mat FastAddImages4thread(const vector<Mat>& _imgs);
 		static float FastSum(Mat& _img, int _pVec[], int _n); 
 	};
 }
